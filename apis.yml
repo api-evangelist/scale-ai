@@ -1,0 +1,196 @@
+aid: scale-ai
+name: Scale AI
+description: Scale AI is the data engine for AI. The company turns raw data into training data by combining ML-powered pre-labeling
+  with multi-tier human review, and ships an extensive REST API and SDKs for managing labeling, evaluation, and generative-AI
+  data pipelines. The product portfolio spans the Scale Data Engine (foundational labeling and review), the GenAI Data Engine
+  (data for foundation-model training and tuning), the Scale GenAI Platform (deployment and orchestration for generative AI),
+  the Automotive Data Engine (LiDAR, sensor fusion, customer dashboards, Nucleus), and Donovan (Scale's defense / public-sector
+  AI product). The REST API lives at api.scale.com/v1, supports live and sandbox modes, and is wrapped by official Python
+  (scaleapi) and JavaScript (scaleapi) SDKs. The company serves enterprise, insurance, healthcare, and U.S. and global public-sector
+  verticals.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+- Data Engine
+- Labeling
+- RLHF
+- GenAI Platform
+- Donovan
+- Defense AI
+- LiDAR
+- Sensor Fusion
+- REST API
+url: https://raw.githubusercontent.com/api-evangelist/scale-ai/refs/heads/main/apis.yml
+created: '2026-05-23'
+modified: '2026-05-23'
+specificationVersion: '0.19'
+apis:
+- aid: scale-ai:scale-rest-api
+  name: Scale REST API
+  description: The Scale REST API is the unified programmatic surface for Scale's data engine. It is built on REST principles
+    with resource-oriented URLs, form-encoded request bodies, JSON responses, and standard HTTP status codes. Endpoints cover
+    tasks (create, retrieve, cancel, set metadata, manage tags and unique identifiers), batches (create, finalize, list,
+    prioritize, retrieve status), projects (creation and management), specialized annotation tasks (image and video, sensor
+    fusion, LiDAR, multi-stage tasks), data retrieval and downloads, taxonomy service management, and callbacks for async
+    operations. The API is versioned (v1), supports live and sandbox modes, and operates on one object per request (no bulk
+    updates).
+  humanURL: https://api-reference.scale.com
+  baseURL: https://api.scale.com
+  tags:
+  - REST API
+  - Labeling
+  - Tasks
+  - Batches
+  properties:
+  - type: Documentation
+    url: https://scale.com/docs/
+  - type: APIReference
+    url: https://api-reference.scale.com
+  - type: Authentication
+    url: https://api-reference.scale.com/docs/api-reference/authentication.md
+  - type: GettingStarted
+    url: https://api-reference.scale.com/docs/api-reference/introduction-to-scale-api.md
+- aid: scale-ai:scale-genai-data-engine
+  name: Scale GenAI Data Engine
+  description: The GenAI Data Engine is Scale's product surface for generating, curating, and reviewing data used to train
+    and tune generative-AI foundation models, including RLHF, SFT, evaluation, and red-team data.
+  humanURL: https://scale.com/docs/
+  baseURL: https://api.scale.com
+  tags:
+  - GenAI
+  - RLHF
+  - SFT
+  - Foundation Models
+  properties:
+  - type: Documentation
+    url: https://scale.com/docs/
+  - type: APIReference
+    url: https://api-reference.scale.com
+- aid: scale-ai:scale-genai-platform
+  name: Scale GenAI Platform
+  description: The Scale GenAI Platform is the deployment and orchestration product for generative-AI applications, used
+    by enterprise and public-sector customers to deliver agentic and generative workflows on top of Scale's data engine.
+  humanURL: https://scale.com/docs/
+  tags:
+  - GenAI Platform
+  - Agentic AI
+  - Enterprise
+  properties:
+  - type: Documentation
+    url: https://scale.com/docs/
+- aid: scale-ai:scale-automotive-data-engine
+  name: Scale Automotive Data Engine
+  description: Scale's Automotive Data Engine covers autonomy-grade data needs including LiDAR labeling, sensor fusion, multi-stage
+    annotation, the customer dashboard, data hosting, and Nucleus for dataset management.
+  humanURL: https://scale.com/docs/
+  baseURL: https://api.scale.com
+  tags:
+  - Automotive
+  - LiDAR
+  - Sensor Fusion
+  - Nucleus
+  properties:
+  - type: Documentation
+    url: https://scale.com/docs/
+- aid: scale-ai:scale-nucleus
+  name: Scale Nucleus
+  description: Nucleus is Scale's dataset management product for browsing, querying, and curating ML datasets at scale.
+  humanURL: https://scale.com/docs/
+  tags:
+  - Nucleus
+  - Dataset Management
+  - ML Ops
+  properties:
+  - type: Documentation
+    url: https://scale.com/docs/
+- aid: scale-ai:scale-donovan
+  name: Scale Donovan
+  description: Donovan is Scale's AI platform for defense and public-sector use cases, delivering decision-support and analytic
+    capabilities to U.S. and allied government customers.
+  humanURL: https://scale.com/donovan
+  tags:
+  - Donovan
+  - Defense
+  - Public Sector
+  properties:
+  - type: Documentation
+    url: https://scale.com/donovan
+common:
+- type: Portal
+  url: https://scale.com
+- type: Documentation
+  url: https://scale.com/docs/
+- type: APIReference
+  url: https://api-reference.scale.com
+- type: GettingStarted
+  url: https://api-reference.scale.com/docs/api-reference/introduction-to-scale-api.md
+- type: Authentication
+  url: https://api-reference.scale.com/docs/api-reference/authentication.md
+- type: Blog
+  url: https://scale.com/blog
+- type: SignUp
+  url: https://dashboard.scale.com
+- type: Console
+  url: https://dashboard.scale.com
+- type: Pricing
+  url: https://scale.com
+- type: SDK
+  url: https://pypi.org/project/scaleapi/
+  name: Scale Python SDK (scaleapi on PyPI)
+- type: SDK
+  url: https://www.npmjs.com/package/scaleapi
+  name: Scale JavaScript SDK (scaleapi on npm)
+- type: Support
+  url: https://scale.com
+- type: LinkedIn
+  url: https://www.linkedin.com/company/scaleai
+- type: Features
+  data:
+  - name: REST API at api.scale.com/v1
+    description: Resource-oriented REST API with JSON responses, live and sandbox modes, and versioned v1 endpoints.
+  - name: Tasks API
+    description: Create, retrieve, cancel, and tag individual labeling tasks with unique identifiers and metadata.
+  - name: Batches API
+    description: Create, finalize, prioritize, list, and retrieve status for batches of tasks.
+  - name: Projects API
+    description: Create and manage labeling projects, including taxonomy service management.
+  - name: Specialized Annotation
+    description: Image and video, sensor fusion, LiDAR, and multi-stage annotation task types.
+  - name: GenAI Data Engine
+    description: RLHF, SFT, evaluation, and red-team data for generative AI foundation models.
+  - name: GenAI Platform
+    description: Deployment and orchestration product for enterprise and public-sector generative-AI workflows.
+  - name: Donovan
+    description: Scale's defense and public-sector AI product line.
+  - name: Nucleus
+    description: Dataset management for browsing, querying, and curating ML datasets.
+  - name: Cloud Storage Integration
+    description: Integrates with AWS S3, Azure, and Google Cloud Storage for data ingest and delivery.
+  - name: Callbacks
+    description: Asynchronous task completion callbacks and secure result URLs.
+- type: UseCases
+  data:
+  - name: Foundation Model Training Data
+    description: RLHF, SFT, evaluation, and red-team datasets for frontier model labs.
+  - name: Autonomous Vehicle Data
+    description: LiDAR, camera, and sensor-fusion labeling for AV programs.
+  - name: Enterprise GenAI Deployment
+    description: Build and deploy generative-AI applications on the GenAI Platform.
+  - name: Public Sector Decision Support
+    description: Deliver Donovan-based analytic and decision-support workflows to defense and government customers.
+  - name: Dataset Curation
+    description: Browse, query, and curate ML datasets at scale with Nucleus.
+- type: Integrations
+  data:
+  - name: AWS S3, Azure Blob, Google Cloud Storage
+    description: Cloud storage ingest and delivery for labeling jobs.
+  - name: Python SDK (scaleapi)
+    description: Official Python client published on PyPI.
+  - name: JavaScript SDK (scaleapi)
+    description: Official Node.js client published on npm.
+  - name: Sandbox Mode
+    description: Test integrations safely against a sandbox environment that mirrors live behavior.
+maintainers:
+- FN: Kin Lane
+  url: http://apievangelist.com
+  email: kin@apievangelist.com
