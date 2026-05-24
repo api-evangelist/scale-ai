@@ -1,0 +1,245 @@
+openapi: 3.1.0
+info:
+  title: Scale AI REST API
+  description: |
+    The Scale REST API is the unified programmatic surface for Scale's data
+    engine. It is resource-oriented with JSON responses, supports live and
+    sandbox modes via API key, and is versioned at v1. This OpenAPI is an
+    API Evangelist research artifact covering core resources — tasks, batches,
+    and projects — based on the public reference at api-reference.scale.com.
+  version: "1.0.0"
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+servers:
+  - url: https://api.scale.com/v1
+    description: Scale REST API (v1)
+security:
+  - BasicAuth: []
+paths:
+  /task:
+    post:
+      summary: Create a task
+      operationId: createTask
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project:
+                  type: string
+                instruction:
+                  type: string
+                attachment:
+                  type: string
+      responses:
+        '200':
+          description: Task created.
+  /task/{task_id}:
+    parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve a task
+      operationId: retrieveTask
+      tags: [Tasks]
+      responses:
+        '200':
+          description: A task.
+  /tasks:
+    get:
+      summary: Retrieve multiple tasks
+      operationId: listTasks
+      tags: [Tasks]
+      parameters:
+        - name: project
+          in: query
+          schema:
+            type: string
+        - name: batch
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tasks page.
+  /task/{task_id}/cancel:
+    post:
+      summary: Cancel a task
+      operationId: cancelTask
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task canceled.
+  /task/{task_id}/setMetadata:
+    post:
+      summary: Set task metadata
+      operationId: setTaskMetadata
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Metadata updated.
+  /batches:
+    post:
+      summary: Create a batch
+      operationId: createBatch
+      tags: [Batches]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Batch created.
+    get:
+      summary: List all batches
+      operationId: listBatches
+      tags: [Batches]
+      responses:
+        '200':
+          description: Batches page.
+  /batches/{batch_name}:
+    get:
+      summary: Retrieve a batch
+      operationId: retrieveBatch
+      tags: [Batches]
+      parameters:
+        - name: batch_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A batch.
+  /batches/{batch_name}/finalize:
+    post:
+      summary: Finalize a batch
+      operationId: finalizeBatch
+      tags: [Batches]
+      parameters:
+        - name: batch_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Batch finalized.
+  /batches/{batch_name}/status:
+    get:
+      summary: Batch status
+      operationId: getBatchStatus
+      tags: [Batches]
+      parameters:
+        - name: batch_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Batch status.
+  /projects:
+    get:
+      summary: List all projects
+      operationId: listProjects
+      tags: [Projects]
+      responses:
+        '200':
+          description: Projects.
+    post:
+      summary: Create a project
+      operationId: createProject
+      tags: [Projects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+      responses:
+        '200':
+          description: Project created.
+  /projects/{project_name}:
+    get:
+      summary: Retrieve a project
+      operationId: retrieveProject
+      tags: [Projects]
+      parameters:
+        - name: project_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A project.
+  /projects/{project_name}/setParams:
+    post:
+      summary: Update project parameters
+      operationId: updateProjectParams
+      tags: [Projects]
+      parameters:
+        - name: project_name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Project parameters updated.
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: |
+        HTTP Basic authentication. Use your Scale API key (live or sandbox) as
+        the username and leave the password blank.
