@@ -1,0 +1,288 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Scale AI REST API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tasks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/task",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a task"
+        },
+        {
+          "info": {
+            "name": "Retrieve a task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/task/:task_id",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a task"
+        },
+        {
+          "info": {
+            "name": "Retrieve multiple tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/tasks",
+            "params": [
+              {
+                "name": "project",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "batch",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieve multiple tasks"
+        },
+        {
+          "info": {
+            "name": "Cancel a task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/task/:task_id/cancel",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a task"
+        },
+        {
+          "info": {
+            "name": "Set task metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/task/:task_id/setMetadata",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set task metadata"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Batches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/batches"
+          },
+          "docs": "List all batches"
+        },
+        {
+          "info": {
+            "name": "Create a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/batches",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a batch"
+        },
+        {
+          "info": {
+            "name": "Retrieve a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/batches/:batch_name",
+            "params": [
+              {
+                "name": "batch_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a batch"
+        },
+        {
+          "info": {
+            "name": "Finalize a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/batches/:batch_name/finalize",
+            "params": [
+              {
+                "name": "batch_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Finalize a batch"
+        },
+        {
+          "info": {
+            "name": "Batch status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/batches/:batch_name/status",
+            "params": [
+              {
+                "name": "batch_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Batch status"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/projects"
+          },
+          "docs": "List all projects"
+        },
+        {
+          "info": {
+            "name": "Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/projects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a project"
+        },
+        {
+          "info": {
+            "name": "Retrieve a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/projects/:project_name",
+            "params": [
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a project"
+        },
+        {
+          "info": {
+            "name": "Update project parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/projects/:project_name/setParams",
+            "params": [
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update project parameters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
