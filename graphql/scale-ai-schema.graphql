@@ -1,0 +1,1063 @@
+"""
+Scale AI GraphQL Schema
+Conceptual schema derived from Scale AI REST API surface covering
+data labeling, RLHF, evaluation, workforce management, and AI pipelines.
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar JSON
+scalar Upload
+scalar URL
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum TaskStatus {
+  PENDING
+  QUEUED
+  WORKING
+  COMPLETED
+  CANCELED
+  ERROR
+}
+
+enum TaskType {
+  IMAGEANNOTATION
+  IMAGECATEGORIZATION
+  IMAGECOLLECTION
+  IMAGESCENARIO
+  VIDEOBOXANNOTATION
+  VIDEOCUBOIDANNOTATION
+  LIDARPOINTANNOTATION
+  LIDARSEGMENTATION
+  DOCUMENTTRANSCRIPTION
+  AUDIORTRANSCRIPTION
+  NAMEDENTITYRECOGNITION
+  COMPARISON
+  DATACOLLECTION
+  TEXTTRANSCRIPTION
+  POINTANNOTATION
+  POLYGONANNOTATION
+  SENSORFUSION
+  MULTISTAGE
+}
+
+enum BatchStatus {
+  STAGING
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+enum ProjectType {
+  ANNOTATION
+  CATEGORIZATION
+  COMPARISON
+  COLLECTION
+  TRANSCRIPTION
+  SENSORFUSION
+  LIDARSEGMENTATION
+  GENAI
+  RLHF
+  EVALUATION
+}
+
+enum AnnotationFormat {
+  COCO
+  PASCAL_VOC
+  YOLO
+  JSON
+  CSV
+}
+
+enum WorkforceType {
+  SCALE
+  CUSTOMER
+  HYBRID
+}
+
+enum QualityLevel {
+  STARTER
+  STANDARD
+  PREMIUM
+  ENTERPRISE
+}
+
+enum EvaluationMetric {
+  ACCURACY
+  PRECISION
+  RECALL
+  F1_SCORE
+  IOU
+  MAP
+  BLEU
+  ROUGE
+  HUMAN_PREFERENCE
+  WIN_RATE
+}
+
+enum ModelProvider {
+  OPENAI
+  ANTHROPIC
+  GOOGLE
+  META
+  MISTRAL
+  COHERE
+  CUSTOM
+}
+
+enum DatasetSplitType {
+  TRAIN
+  VALIDATION
+  TEST
+  HOLDOUT
+}
+
+enum StorageProvider {
+  AWS_S3
+  AZURE_BLOB
+  GOOGLE_CLOUD_STORAGE
+  SCALE_HOSTED
+}
+
+enum AnnotationGeometryType {
+  BOUNDING_BOX
+  POLYGON
+  POLYLINE
+  POINT
+  ELLIPSE
+  CUBOID
+  SEGMENTATION_MASK
+}
+
+enum RLHFTaskType {
+  PREFERENCE_RANKING
+  RESPONSE_SCORING
+  RED_TEAMING
+  SUPERVISED_FINE_TUNING
+  INSTRUCTION_FOLLOWING
+}
+
+enum CallbackStatus {
+  PENDING
+  DELIVERED
+  FAILED
+  RETRYING
+}
+
+enum WorkerTier {
+  BRONZE
+  SILVER
+  GOLD
+  EXPERT
+}
+
+enum NucleusSliceType {
+  STATIC
+  DYNAMIC
+  SMART
+}
+
+# ─── Core Entity Types ───────────────────────────────────────────────────────
+
+"""A labeling task submitted to Scale AI."""
+type Task {
+  id: ID!
+  type: TaskType!
+  status: TaskStatus!
+  project: Project
+  batch: Batch
+  instruction: String
+  attachments: [Attachment!]
+  metadata: JSON
+  tags: [String!]
+  uniqueId: String
+  callback: CallbackConfig
+  response: TaskResponse
+  auditTrail: [AuditEvent!]
+  priority: Int
+  createdAt: DateTime!
+  completedAt: DateTime
+  canceledAt: DateTime
+  updatedAt: DateTime!
+  params: JSON
+  isTest: Boolean!
+}
+
+"""Paginated list of tasks."""
+type TaskConnection {
+  edges: [TaskEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TaskEdge {
+  node: Task!
+  cursor: String!
+}
+
+"""The annotation result returned when a task is completed."""
+type TaskResponse {
+  taskId: ID!
+  annotations: [Annotation!]!
+  globalAnnotations: JSON
+  confidence: Float
+  duration: Int
+  workerId: String
+  workerTier: WorkerTier
+  qualityScore: Float
+  submittedAt: DateTime!
+}
+
+"""A single annotation on a task response."""
+type Annotation {
+  id: ID!
+  type: AnnotationGeometryType!
+  label: String!
+  attributes: JSON
+  geometry: AnnotationGeometry!
+  confidence: Float
+  workerCount: Int
+  consensusScore: Float
+}
+
+"""Geometric data for an annotation."""
+type AnnotationGeometry {
+  x: Float
+  y: Float
+  width: Float
+  height: Float
+  vertices: [Vertex!]
+  points: [Point3D!]
+  segmentationMask: String
+}
+
+type Vertex {
+  x: Float!
+  y: Float!
+}
+
+type Point3D {
+  x: Float!
+  y: Float!
+  z: Float!
+}
+
+"""An attachment (image, video, audio, document) associated with a task."""
+type Attachment {
+  id: ID!
+  type: String!
+  url: URL!
+  contentType: String
+  sizeBytes: Int
+  duration: Float
+  frameCount: Int
+  metadata: JSON
+}
+
+"""Callback configuration for async task completion notifications."""
+type CallbackConfig {
+  url: URL!
+  status: CallbackStatus!
+  attempts: Int!
+  lastAttemptAt: DateTime
+  nextRetryAt: DateTime
+  headers: JSON
+}
+
+"""An audit log event on a task."""
+type AuditEvent {
+  id: ID!
+  eventType: String!
+  actorId: String
+  actorType: String
+  timestamp: DateTime!
+  details: JSON
+}
+
+# ─── Project Types ───────────────────────────────────────────────────────────
+
+"""A Scale AI labeling project grouping related tasks."""
+type Project {
+  id: ID!
+  name: String!
+  type: ProjectType!
+  description: String
+  taxonomy: Taxonomy
+  workforceType: WorkforceType!
+  qualityLevel: QualityLevel!
+  batches: BatchConnection!
+  taskCount: Int!
+  completedTaskCount: Int!
+  metadata: JSON
+  params: JSON
+  callbackUrl: URL
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProjectConnection {
+  edges: [ProjectEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ProjectEdge {
+  node: Project!
+  cursor: String!
+}
+
+"""Taxonomy (label set) attached to a project."""
+type Taxonomy {
+  id: ID!
+  name: String!
+  categories: [TaxonomyCategory!]!
+  attributes: [TaxonomyAttribute!]!
+  version: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TaxonomyCategory {
+  id: ID!
+  name: String!
+  color: String
+  subcategories: [TaxonomyCategory!]
+  attributes: [TaxonomyAttribute!]
+}
+
+type TaxonomyAttribute {
+  id: ID!
+  name: String!
+  type: String!
+  required: Boolean!
+  options: [String!]
+  defaultValue: JSON
+}
+
+# ─── Batch Types ─────────────────────────────────────────────────────────────
+
+"""A batch groups multiple tasks submitted together."""
+type Batch {
+  id: ID!
+  name: String!
+  project: Project!
+  status: BatchStatus!
+  tasks: TaskConnection!
+  taskCount: Int!
+  completedTaskCount: Int!
+  pendingTaskCount: Int!
+  errorTaskCount: Int!
+  priority: Int
+  params: JSON
+  metadata: JSON
+  createdAt: DateTime!
+  finalizedAt: DateTime
+  completedAt: DateTime
+  updatedAt: DateTime!
+}
+
+type BatchConnection {
+  edges: [BatchEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BatchEdge {
+  node: Batch!
+  cursor: String!
+}
+
+type BatchStatusSummary {
+  batchId: ID!
+  status: BatchStatus!
+  taskCount: Int!
+  completedCount: Int!
+  pendingCount: Int!
+  errorCount: Int!
+  completionPercentage: Float!
+  estimatedCompletionAt: DateTime
+}
+
+# ─── RLHF / GenAI Types ──────────────────────────────────────────────────────
+
+"""An RLHF (Reinforcement Learning from Human Feedback) task."""
+type RLHFTask {
+  id: ID!
+  type: RLHFTaskType!
+  status: TaskStatus!
+  project: Project
+  prompt: String!
+  responses: [ModelResponse!]!
+  humanFeedback: HumanFeedback
+  metadata: JSON
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+type RLHFTaskConnection {
+  edges: [RLHFTaskEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type RLHFTaskEdge {
+  node: RLHFTask!
+  cursor: String!
+}
+
+"""A model-generated response to be evaluated."""
+type ModelResponse {
+  id: ID!
+  modelProvider: ModelProvider!
+  modelId: String!
+  content: String!
+  metadata: JSON
+  generatedAt: DateTime!
+}
+
+"""Human feedback on model responses."""
+type HumanFeedback {
+  id: ID!
+  preferredResponseId: ID
+  rankings: [ResponseRanking!]
+  scores: [ResponseScore!]
+  annotations: [String!]
+  flags: [ContentFlag!]
+  overallScore: Float
+  comments: String
+  workerId: String
+  workerTier: WorkerTier
+  submittedAt: DateTime!
+}
+
+type ResponseRanking {
+  responseId: ID!
+  rank: Int!
+}
+
+type ResponseScore {
+  responseId: ID!
+  dimension: String!
+  score: Float!
+}
+
+type ContentFlag {
+  responseId: ID!
+  flagType: String!
+  description: String
+}
+
+# ─── Evaluation Types ────────────────────────────────────────────────────────
+
+"""An evaluation dataset or benchmark."""
+type EvaluationDataset {
+  id: ID!
+  name: String!
+  description: String
+  taskCount: Int!
+  categories: [String!]
+  metrics: [EvaluationMetric!]!
+  split: DatasetSplitType!
+  format: AnnotationFormat!
+  storageUrl: URL
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type EvaluationDatasetConnection {
+  edges: [EvaluationDatasetEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type EvaluationDatasetEdge {
+  node: EvaluationDataset!
+  cursor: String!
+}
+
+"""Results of evaluating a model on a dataset."""
+type EvaluationResult {
+  id: ID!
+  dataset: EvaluationDataset!
+  model: ModelInfo!
+  metrics: [MetricResult!]!
+  summary: String
+  completedAt: DateTime!
+}
+
+type MetricResult {
+  metric: EvaluationMetric!
+  value: Float!
+  confidence: Float
+  breakdown: JSON
+}
+
+type ModelInfo {
+  provider: ModelProvider!
+  modelId: String!
+  version: String
+  parameters: JSON
+}
+
+# ─── Sensor Fusion / LiDAR Types ─────────────────────────────────────────────
+
+"""A sensor fusion scene containing multiple synchronized sensor streams."""
+type SensorFusionScene {
+  id: ID!
+  task: Task!
+  frames: [SensorFrame!]!
+  annotations3D: [Annotation3D!]!
+  calibrations: [SensorCalibration!]
+  metadata: JSON
+}
+
+type SensorFrame {
+  id: ID!
+  frameIndex: Int!
+  timestamp: Float!
+  cameras: [CameraFrame!]
+  lidarPointCloud: LiDARPointCloud
+}
+
+type CameraFrame {
+  cameraId: String!
+  imageUrl: URL!
+  intrinsics: CameraIntrinsics!
+  extrinsics: CameraExtrinsics!
+}
+
+type LiDARPointCloud {
+  url: URL!
+  pointCount: Int!
+  format: String!
+}
+
+type CameraIntrinsics {
+  fx: Float!
+  fy: Float!
+  cx: Float!
+  cy: Float!
+  distortionCoefficients: [Float!]
+}
+
+type CameraExtrinsics {
+  rotation: [[Float!]!]!
+  translation: [Float!]!
+}
+
+type Annotation3D {
+  id: ID!
+  label: String!
+  x: Float!
+  y: Float!
+  z: Float!
+  width: Float!
+  length: Float!
+  height: Float!
+  yaw: Float!
+  attributes: JSON
+  trackId: String
+  frameRange: FrameRange
+}
+
+type FrameRange {
+  startFrame: Int!
+  endFrame: Int!
+}
+
+type SensorCalibration {
+  sensorId: String!
+  type: String!
+  calibrationData: JSON!
+}
+
+# ─── Nucleus / Dataset Management Types ──────────────────────────────────────
+
+"""A Nucleus dataset for ML data management."""
+type NucleusDataset {
+  id: ID!
+  name: String!
+  description: String
+  itemCount: Int!
+  annotationCount: Int!
+  slices: [NucleusSlice!]!
+  modelRuns: [NucleusModelRun!]!
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type NucleusDatasetConnection {
+  edges: [NucleusDatasetEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type NucleusDatasetEdge {
+  node: NucleusDataset!
+  cursor: String!
+}
+
+"""A slice (subset) of a Nucleus dataset."""
+type NucleusSlice {
+  id: ID!
+  name: String!
+  type: NucleusSliceType!
+  dataset: NucleusDataset!
+  itemCount: Int!
+  filter: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A model inference run tracked in Nucleus."""
+type NucleusModelRun {
+  id: ID!
+  name: String!
+  dataset: NucleusDataset!
+  model: ModelInfo!
+  predictionCount: Int!
+  evaluationMetrics: [MetricResult!]
+  status: String!
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+"""An item (data point) in a Nucleus dataset."""
+type NucleusDatasetItem {
+  id: ID!
+  referenceId: String!
+  imageUrl: URL
+  metadata: JSON
+  annotations: [Annotation!]!
+  predictions: [Annotation!]!
+  sceneId: String
+  createdAt: DateTime!
+}
+
+# ─── Workforce / Worker Types ─────────────────────────────────────────────────
+
+"""Workforce configuration for a project."""
+type WorkforceConfig {
+  id: ID!
+  project: Project!
+  type: WorkforceType!
+  workerCount: Int
+  qualityLevel: QualityLevel!
+  reviewEnabled: Boolean!
+  consensusCount: Int
+  expertReviewEnabled: Boolean!
+  instructions: String
+  qualityGuidelines: URL
+}
+
+"""A labeling worker."""
+type Worker {
+  id: ID!
+  tier: WorkerTier!
+  completedTaskCount: Int!
+  accuracyScore: Float
+  specializations: [TaskType!]
+  activeTaskCount: Int!
+  joinedAt: DateTime!
+}
+
+type WorkerConnection {
+  edges: [WorkerEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type WorkerEdge {
+  node: Worker!
+  cursor: String!
+}
+
+# ─── Storage Types ────────────────────────────────────────────────────────────
+
+"""Cloud storage integration configuration."""
+type StorageIntegration {
+  id: ID!
+  name: String!
+  provider: StorageProvider!
+  bucket: String!
+  prefix: String
+  region: String
+  isDefault: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# ─── Billing / Usage Types ────────────────────────────────────────────────────
+
+"""Usage and billing summary for an account."""
+type UsageSummary {
+  period: BillingPeriod!
+  taskCount: Int!
+  completedTaskCount: Int!
+  totalSpend: Float!
+  currency: String!
+  breakdown: [UsageLineItem!]!
+}
+
+type BillingPeriod {
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+type UsageLineItem {
+  taskType: TaskType!
+  quantity: Int!
+  unitPrice: Float!
+  totalCost: Float!
+}
+
+# ─── Webhook Types ────────────────────────────────────────────────────────────
+
+"""A webhook subscription for async event delivery."""
+type Webhook {
+  id: ID!
+  url: URL!
+  events: [String!]!
+  isActive: Boolean!
+  secret: String
+  deliveryCount: Int!
+  failureCount: Int!
+  lastDeliveredAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type WebhookConnection {
+  edges: [WebhookEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type WebhookEdge {
+  node: Webhook!
+  cursor: String!
+}
+
+# ─── Pagination ────────────────────────────────────────────────────────────────
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# ─── Input Types ──────────────────────────────────────────────────────────────
+
+input CreateTaskInput {
+  type: TaskType!
+  projectName: String!
+  callback: String
+  instruction: String
+  attachments: [AttachmentInput!]!
+  metadata: JSON
+  tags: [String!]
+  uniqueId: String
+  priority: Int
+  params: JSON
+  batchName: String
+}
+
+input AttachmentInput {
+  type: String!
+  content: URL!
+}
+
+input UpdateTaskInput {
+  metadata: JSON
+  tags: [String!]
+  uniqueId: String
+  priority: Int
+}
+
+input CreateBatchInput {
+  name: String!
+  projectName: String!
+  params: JSON
+  metadata: JSON
+  priority: Int
+  callbackUrl: URL
+}
+
+input CreateProjectInput {
+  name: String!
+  type: ProjectType!
+  description: String
+  workforceType: WorkforceType
+  qualityLevel: QualityLevel
+  callbackUrl: URL
+  params: JSON
+  metadata: JSON
+  taxonomyId: ID
+}
+
+input UpdateProjectInput {
+  description: String
+  qualityLevel: QualityLevel
+  callbackUrl: URL
+  params: JSON
+  metadata: JSON
+}
+
+input CreateTaxonomyInput {
+  name: String!
+  categories: [TaxonomyCategoryInput!]!
+  attributes: [TaxonomyAttributeInput!]
+}
+
+input TaxonomyCategoryInput {
+  name: String!
+  color: String
+  subcategories: [TaxonomyCategoryInput!]
+  attributes: [TaxonomyAttributeInput!]
+}
+
+input TaxonomyAttributeInput {
+  name: String!
+  type: String!
+  required: Boolean
+  options: [String!]
+  defaultValue: JSON
+}
+
+input CreateRLHFTaskInput {
+  type: RLHFTaskType!
+  projectName: String!
+  prompt: String!
+  responses: [ModelResponseInput!]!
+  metadata: JSON
+  callback: String
+}
+
+input ModelResponseInput {
+  modelProvider: ModelProvider!
+  modelId: String!
+  content: String!
+  metadata: JSON
+}
+
+input CreateEvaluationDatasetInput {
+  name: String!
+  description: String
+  split: DatasetSplitType!
+  format: AnnotationFormat!
+  metrics: [EvaluationMetric!]!
+  categories: [String!]
+  metadata: JSON
+}
+
+input CreateNucleusDatasetInput {
+  name: String!
+  description: String
+  metadata: JSON
+}
+
+input CreateNucleusSliceInput {
+  name: String!
+  type: NucleusSliceType!
+  datasetId: ID!
+  filter: JSON
+}
+
+input CreateWebhookInput {
+  url: URL!
+  events: [String!]!
+  secret: String
+}
+
+input UpdateWebhookInput {
+  url: URL
+  events: [String!]
+  isActive: Boolean
+  secret: String
+}
+
+input CreateStorageIntegrationInput {
+  name: String!
+  provider: StorageProvider!
+  bucket: String!
+  prefix: String
+  region: String
+  credentials: JSON!
+  isDefault: Boolean
+}
+
+input TaskFilterInput {
+  status: TaskStatus
+  type: TaskType
+  projectName: String
+  batchName: String
+  tags: [String!]
+  createdAfter: DateTime
+  createdBefore: DateTime
+  completedAfter: DateTime
+  completedBefore: DateTime
+}
+
+input BatchFilterInput {
+  status: BatchStatus
+  projectName: String
+  createdAfter: DateTime
+  createdBefore: DateTime
+}
+
+input NucleusDatasetItemInput {
+  referenceId: String!
+  imageUrl: URL
+  metadata: JSON
+  sceneId: String
+}
+
+input RunEvaluationInput {
+  datasetId: ID!
+  model: ModelInfoInput!
+  params: JSON
+}
+
+input ModelInfoInput {
+  provider: ModelProvider!
+  modelId: String!
+  version: String
+  parameters: JSON
+}
+
+# ─── Query Root ────────────────────────────────────────────────────────────────
+
+type Query {
+  # Task queries
+  task(id: ID!): Task
+  taskByUniqueId(uniqueId: String!): Task
+  tasks(filter: TaskFilterInput, first: Int, after: String, last: Int, before: String): TaskConnection!
+
+  # Batch queries
+  batch(id: ID!): Batch
+  batches(filter: BatchFilterInput, first: Int, after: String): BatchConnection!
+  batchStatus(id: ID!): BatchStatusSummary!
+
+  # Project queries
+  project(name: String!): Project
+  projects(first: Int, after: String): ProjectConnection!
+
+  # Taxonomy queries
+  taxonomy(id: ID!): Taxonomy
+  taxonomies: [Taxonomy!]!
+
+  # RLHF queries
+  rlhfTask(id: ID!): RLHFTask
+  rlhfTasks(projectName: String, type: RLHFTaskType, first: Int, after: String): RLHFTaskConnection!
+
+  # Evaluation queries
+  evaluationDataset(id: ID!): EvaluationDataset
+  evaluationDatasets(split: DatasetSplitType, first: Int, after: String): EvaluationDatasetConnection!
+  evaluationResult(id: ID!): EvaluationResult
+
+  # Nucleus queries
+  nucleusDataset(id: ID!): NucleusDataset
+  nucleusDatasets(first: Int, after: String): NucleusDatasetConnection!
+  nucleusSlice(id: ID!): NucleusSlice
+  nucleusDatasetItem(datasetId: ID!, referenceId: String!): NucleusDatasetItem
+
+  # Workforce queries
+  workforceConfig(projectName: String!): WorkforceConfig
+  workers(tier: WorkerTier, first: Int, after: String): WorkerConnection!
+
+  # Storage queries
+  storageIntegrations: [StorageIntegration!]!
+  storageIntegration(id: ID!): StorageIntegration
+
+  # Webhook queries
+  webhooks(first: Int, after: String): WebhookConnection!
+  webhook(id: ID!): Webhook
+
+  # Billing queries
+  usageSummary(startDate: DateTime!, endDate: DateTime!): UsageSummary!
+
+  # Sensor fusion queries
+  sensorFusionScene(taskId: ID!): SensorFusionScene
+}
+
+# ─── Mutation Root ────────────────────────────────────────────────────────────
+
+type Mutation {
+  # Task mutations
+  createTask(input: CreateTaskInput!): Task!
+  updateTask(id: ID!, input: UpdateTaskInput!): Task!
+  cancelTask(id: ID!): Task!
+  setTaskMetadata(id: ID!, metadata: JSON!): Task!
+  addTaskTag(id: ID!, tag: String!): Task!
+  removeTaskTag(id: ID!, tag: String!): Task!
+  setTaskUniqueId(id: ID!, uniqueId: String!): Task!
+  clearTaskUniqueId(id: ID!): Task!
+
+  # Batch mutations
+  createBatch(input: CreateBatchInput!): Batch!
+  finalizeBatch(id: ID!): Batch!
+  cancelBatch(id: ID!): Batch!
+  setBatchPriority(id: ID!, priority: Int!): Batch!
+
+  # Project mutations
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(name: String!, input: UpdateProjectInput!): Project!
+  deleteProject(name: String!): Boolean!
+
+  # Taxonomy mutations
+  createTaxonomy(input: CreateTaxonomyInput!): Taxonomy!
+  updateTaxonomy(id: ID!, input: CreateTaxonomyInput!): Taxonomy!
+  deleteTaxonomy(id: ID!): Boolean!
+
+  # RLHF mutations
+  createRLHFTask(input: CreateRLHFTaskInput!): RLHFTask!
+  cancelRLHFTask(id: ID!): RLHFTask!
+
+  # Evaluation mutations
+  createEvaluationDataset(input: CreateEvaluationDatasetInput!): EvaluationDataset!
+  deleteEvaluationDataset(id: ID!): Boolean!
+  runEvaluation(input: RunEvaluationInput!): EvaluationResult!
+
+  # Nucleus mutations
+  createNucleusDataset(input: CreateNucleusDatasetInput!): NucleusDataset!
+  deleteNucleusDataset(id: ID!): Boolean!
+  createNucleusSlice(input: CreateNucleusSliceInput!): NucleusSlice!
+  deleteNucleusSlice(id: ID!): Boolean!
+  addItemsToNucleusDataset(datasetId: ID!, items: [NucleusDatasetItemInput!]!): [NucleusDatasetItem!]!
+  deleteNucleusDatasetItems(datasetId: ID!, referenceIds: [String!]!): Boolean!
+
+  # Storage mutations
+  createStorageIntegration(input: CreateStorageIntegrationInput!): StorageIntegration!
+  deleteStorageIntegration(id: ID!): Boolean!
+
+  # Webhook mutations
+  createWebhook(input: CreateWebhookInput!): Webhook!
+  updateWebhook(id: ID!, input: UpdateWebhookInput!): Webhook!
+  deleteWebhook(id: ID!): Boolean!
+  testWebhook(id: ID!): Boolean!
+}
+
+# ─── Subscription Root ────────────────────────────────────────────────────────
+
+type Subscription {
+  # Real-time task status updates
+  taskStatusChanged(taskId: ID!): Task!
+  batchStatusChanged(batchId: ID!): Batch!
+
+  # New completed tasks for a project
+  taskCompleted(projectName: String!): Task!
+
+  # RLHF task completions
+  rlhfTaskCompleted(projectName: String!): RLHFTask!
+
+  # Evaluation run progress
+  evaluationProgress(evaluationId: ID!): EvaluationResult!
+
+  # Callback delivery status
+  callbackStatusChanged(taskId: ID!): CallbackConfig!
+}
