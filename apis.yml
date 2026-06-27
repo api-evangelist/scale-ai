@@ -140,16 +140,16 @@ common:
   url: https://api-reference.scale.com/docs/api-reference/authentication.md
 - type: Blog
   url: https://scale.com/blog
-- type: SignUp
+- type: Signup
   url: https://dashboard.scale.com
 - type: Console
   url: https://dashboard.scale.com
 - type: Pricing
   url: https://scale.com
-- type: SDK
+- type: SDKs
   url: https://pypi.org/project/scaleapi/
   name: Scale Python SDK (scaleapi on PyPI)
-- type: SDK
+- type: SDKs
   url: https://www.npmjs.com/package/scaleapi
   name: Scale JavaScript SDK (scaleapi on npm)
 - type: Support
