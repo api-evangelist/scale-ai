@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/scale-ai-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BasicAuth
+  type: http
+  scheme: basic
+  description: |-
+    HTTP Basic authentication. Use your Scale API key (live or sandbox) as
+    the username and leave the password blank.
+  sources:
+  - openapi/scale-ai-openapi.yml

@@ -128,6 +128,14 @@ apis:
   - type: Documentation
     url: https://scale.com/donovan
 common:
+- type: TrustCenter
+  url: security/scale-ai-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/scale-ai-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/scale-ai-domain-security.yml
+- type: Authentication
+  url: authentication/scale-ai-authentication.yml
 - type: Portal
   url: https://scale.com
 - type: Documentation
