@@ -1,0 +1,109 @@
+openapi: 3.1.0
+info:
+  title: Scale AI REST Batches API
+  description: 'The Scale REST API is the unified programmatic surface for Scale''s data
+
+    engine. It is resource-oriented with JSON responses, supports live and
+
+    sandbox modes via API key, and is versioned at v1. This OpenAPI is an
+
+    API Evangelist research artifact covering core resources — tasks, batches,
+
+    and projects — based on the public reference at api-reference.scale.com.
+
+    '
+  version: 1.0.0
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+servers:
+- url: https://api.scale.com/v1
+  description: Scale REST API (v1)
+security:
+- BasicAuth: []
+tags:
+- name: Batches
+paths:
+  /batches:
+    post:
+      summary: Create a batch
+      operationId: createBatch
+      tags:
+      - Batches
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Batch created.
+    get:
+      summary: List all batches
+      operationId: listBatches
+      tags:
+      - Batches
+      responses:
+        '200':
+          description: Batches page.
+  /batches/{batch_name}:
+    get:
+      summary: Retrieve a batch
+      operationId: retrieveBatch
+      tags:
+      - Batches
+      parameters:
+      - name: batch_name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A batch.
+  /batches/{batch_name}/finalize:
+    post:
+      summary: Finalize a batch
+      operationId: finalizeBatch
+      tags:
+      - Batches
+      parameters:
+      - name: batch_name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch finalized.
+  /batches/{batch_name}/status:
+    get:
+      summary: Batch status
+      operationId: getBatchStatus
+      tags:
+      - Batches
+      parameters:
+      - name: batch_name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch status.
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: 'HTTP Basic authentication. Use your Scale API key (live or sandbox) as
+
+        the username and leave the password blank.
+
+        '
