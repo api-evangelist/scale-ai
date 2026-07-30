@@ -12,7 +12,20 @@ description: Scale AI is the data engine for AI. The company turns raw data into
   (scaleapi) and JavaScript (scaleapi) SDKs. The company serves enterprise, insurance,
   healthcare, and U.S. and global public-sector verticals.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/scale-ai.png
 tags:
 - Data Engine
 - Labeling
@@ -30,15 +43,15 @@ specificationVersion: '0.19'
 apis:
 - aid: scale-ai:scale-rest-api
   name: Scale REST API
-  description: The Scale REST API is the unified programmatic surface for Scale's
-    data engine. It is built on REST principles with resource-oriented URLs, form-encoded
-    request bodies, JSON responses, and standard HTTP status codes. Endpoints cover
-    tasks (create, retrieve, cancel, set metadata, manage tags and unique identifiers),
-    batches (create, finalize, list, prioritize, retrieve status), projects (creation
-    and management), specialized annotation tasks (image and video, sensor fusion,
-    LiDAR, multi-stage tasks), data retrieval and downloads, taxonomy service management,
-    and callbacks for async operations. The API is versioned (v1), supports live and
-    sandbox modes, and operates on one object per request (no bulk updates).
+  description: >-
+    The Scale REST API is the unified programmatic surface for Scale's data engine. It is built on REST
+    principles with resource-oriented URLs, form-encoded request bodies, JSON responses, and standard
+    HTTP status codes. Endpoints cover tasks (create, retrieve, cancel, set metadata, manage tags and
+    unique identifiers), batches (create, finalize, list, prioritize, retrieve status), projects (creation
+    and management), specialized annotation tasks (image and video, sensor fusion, LiDAR, multi-stage
+    tasks), data retrieval and downloads, taxonomy service management, and callbacks for async operations.
+    The API is versioned (v1), supports live and sandbox modes, and operates on one object per request
+    (no bulk updates).
   humanURL: https://api-reference.scale.com
   baseURL: https://api.scale.com
   tags:
@@ -59,9 +72,9 @@ apis:
     type: GraphQL
 - aid: scale-ai:scale-genai-data-engine
   name: Scale GenAI Data Engine
-  description: The GenAI Data Engine is Scale's product surface for generating, curating,
-    and reviewing data used to train and tune generative-AI foundation models, including
-    RLHF, SFT, evaluation, and red-team data.
+  description: >-
+    The GenAI Data Engine is Scale's product surface for generating, curating, and reviewing data used
+    to train and tune generative-AI foundation models, including RLHF, SFT, evaluation, and red-team data.
   humanURL: https://scale.com/docs/
   baseURL: https://api.scale.com
   tags:
@@ -76,9 +89,10 @@ apis:
     url: https://api-reference.scale.com
 - aid: scale-ai:scale-genai-platform
   name: Scale GenAI Platform
-  description: The Scale GenAI Platform is the deployment and orchestration product
-    for generative-AI applications, used by enterprise and public-sector customers
-    to deliver agentic and generative workflows on top of Scale's data engine.
+  description: >-
+    The Scale GenAI Platform is the deployment and orchestration product for generative-AI applications,
+    used by enterprise and public-sector customers to deliver agentic and generative workflows on top
+    of Scale's data engine.
   humanURL: https://scale.com/docs/
   tags:
   - GenAI Platform
@@ -89,9 +103,9 @@ apis:
     url: https://scale.com/docs/
 - aid: scale-ai:scale-automotive-data-engine
   name: Scale Automotive Data Engine
-  description: Scale's Automotive Data Engine covers autonomy-grade data needs including
-    LiDAR labeling, sensor fusion, multi-stage annotation, the customer dashboard,
-    data hosting, and Nucleus for dataset management.
+  description: >-
+    Scale's Automotive Data Engine covers autonomy-grade data needs including LiDAR labeling, sensor fusion,
+    multi-stage annotation, the customer dashboard, data hosting, and Nucleus for dataset management.
   humanURL: https://scale.com/docs/
   baseURL: https://api.scale.com
   tags:
@@ -104,8 +118,9 @@ apis:
     url: https://scale.com/docs/
 - aid: scale-ai:scale-nucleus
   name: Scale Nucleus
-  description: Nucleus is Scale's dataset management product for browsing, querying,
-    and curating ML datasets at scale.
+  description: >-
+    Nucleus is Scale's dataset management product for browsing, querying, and curating ML datasets at
+    scale.
   humanURL: https://scale.com/docs/
   tags:
   - Nucleus
@@ -116,9 +131,9 @@ apis:
     url: https://scale.com/docs/
 - aid: scale-ai:scale-donovan
   name: Scale Donovan
-  description: Donovan is Scale's AI platform for defense and public-sector use cases,
-    delivering decision-support and analytic capabilities to U.S. and allied government
-    customers.
+  description: >-
+    Donovan is Scale's AI platform for defense and public-sector use cases, delivering decision-support
+    and analytic capabilities to U.S. and allied government customers.
   humanURL: https://scale.com/donovan
   tags:
   - Donovan
@@ -127,6 +142,36 @@ apis:
   properties:
   - type: Documentation
     url: https://scale.com/donovan
+- aid: scale-ai:scale-ai-batches-api
+  name: Scale AI Batches API
+  description: The Batches API from Scale AI — 4 operation(s) for batches.
+  humanURL: https://api-reference.scale.com
+  baseURL: https://api.scale.com
+  tags:
+  - Batches
+  properties:
+  - type: OpenAPI
+    url: openapi/scale-ai-batches-api-openapi.yml
+- aid: scale-ai:scale-ai-projects-api
+  name: Scale AI Projects API
+  description: The Projects API from Scale AI — 3 operation(s) for projects.
+  humanURL: https://api-reference.scale.com
+  baseURL: https://api.scale.com
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/scale-ai-projects-api-openapi.yml
+- aid: scale-ai:scale-ai-tasks-api
+  name: Scale AI Tasks API
+  description: The Tasks API from Scale AI — 5 operation(s) for tasks.
+  humanURL: https://api-reference.scale.com
+  baseURL: https://api.scale.com
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/scale-ai-tasks-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/scale-ai-agentic-access.yml
