@@ -1,0 +1,18 @@
+{
+  "provider": "scale-ai",
+  "sources": [
+    "scale-ai-batches-api-openapi.yml",
+    "scale-ai-projects-api-openapi.yml",
+    "scale-ai-tasks-api-openapi.yml"
+  ],
+  "outputs": [
+    "scale-ai-batches-api-openapi.yml",
+    "scale-ai-projects-api-openapi.yml",
+    "scale-ai-tasks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
