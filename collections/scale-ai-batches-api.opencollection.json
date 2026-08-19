@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Scale AI REST Batches API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Batches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/batches"
+          },
+          "docs": "List all batches"
+        },
+        {
+          "info": {
+            "name": "Create a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/batches",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a batch"
+        },
+        {
+          "info": {
+            "name": "Retrieve a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/batches/:batch_name",
+            "params": [
+              {
+                "name": "batch_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a batch"
+        },
+        {
+          "info": {
+            "name": "Finalize a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.scale.com/v1/batches/:batch_name/finalize",
+            "params": [
+              {
+                "name": "batch_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Finalize a batch"
+        },
+        {
+          "info": {
+            "name": "Batch status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.scale.com/v1/batches/:batch_name/status",
+            "params": [
+              {
+                "name": "batch_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Batch status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
