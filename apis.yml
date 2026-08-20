@@ -57,6 +57,11 @@ apis:
   tags:
   - REST API
   - Labeling
+  - Task
+  - Batches
+  tags_raw:
+  - REST API
+  - Labeling
   - Tasks
   - Batches
   properties:
@@ -125,6 +130,10 @@ apis:
   tags:
   - Nucleus
   - Dataset Management
+  - MLOps
+  tags_raw:
+  - Nucleus
+  - Dataset Management
   - ML Ops
   properties:
   - type: Documentation
@@ -158,6 +167,8 @@ apis:
   humanURL: https://api-reference.scale.com
   baseURL: https://api.scale.com
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -168,6 +179,8 @@ apis:
   humanURL: https://api-reference.scale.com
   baseURL: https://api.scale.com
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
