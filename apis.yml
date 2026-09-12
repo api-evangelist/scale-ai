@@ -199,6 +199,8 @@ apis:
   - type: OpenAPI
     url: openapi/scale-ai-tasks-api-openapi.yml
 common:
+- type: Website
+  url: https://www.scale.com/
 - type: AgenticAccess
   url: agentic-access/scale-ai-agentic-access.yml
 - type: TrustCenter
