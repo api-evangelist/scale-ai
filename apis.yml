@@ -96,6 +96,11 @@ apis:
   humanURL: https://scale.com/docs/
   baseURL: https://api.scale.com
   tags:
+  - Generative AI
+  - RLHF
+  - SFT
+  - Foundation Models
+  tags_raw:
   - GenAI
   - RLHF
   - SFT
