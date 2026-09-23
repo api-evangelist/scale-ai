@@ -1,9 +1,7 @@
 {
   "provider": "scale-ai",
   "sources": [
-    "scale-ai-batches-api-openapi.yml",
-    "scale-ai-projects-api-openapi.yml",
-    "scale-ai-tasks-api-openapi.yml"
+    "_original/scale-ai-openapi.yml"
   ],
   "outputs": [
     "scale-ai-batches-api-openapi.yml",
@@ -13,6 +11,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "scale-ai-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "scale-ai-openapi.yml: declared missing tag: Batches",
+    "scale-ai-openapi.yml: declared missing tag: Projects",
+    "scale-ai-openapi.yml: declared missing tag: Tasks",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "scale-ai-batches-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "scale-ai-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "scale-ai-tasks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

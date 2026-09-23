@@ -1,0 +1,32 @@
+# Front Door AI Index — scale-ai — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: scale-ai
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.scale.com
+  final_host: scale.com
+  ownership: own
+  owner: scale-ai
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 66
+  host_score: 66
+  density: 83.76
+  words: 788
+  tiers:
+    agentic: 4
+    core: 62
+    model: 0
+  ambiguous: 12
+  top_terms:
+    AI: 48
+    intelligence: 8
+    generative ai: 5
+    LLMs: 4
+    agentic: 4
+    cognitive: 4
+    foundation model: 4
+    gen ai: 1

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Scale AI REST Batches Tasks API
+  title: Scale AI REST Tasks API
   description: 'The Scale REST API is the unified programmatic surface for Scale''s data
 
     engine. It is resource-oriented with JSON responses, supports live and
@@ -9,9 +9,7 @@ info:
 
     API Evangelist research artifact covering core resources — tasks, batches,
 
-    and projects — based on the public reference at api-reference.scale.com.
-
-    '
+    and projects — based on the public reference at api-reference.scale.com.'
   version: 1.0.0
   contact:
     name: API Evangelist
