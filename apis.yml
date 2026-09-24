@@ -86,8 +86,6 @@ apis:
     url: https://api-reference.scale.com/docs/api-reference/authentication.md
   - type: GettingStarted
     url: https://api-reference.scale.com/docs/api-reference/introduction-to-scale-api.md
-  - url: graphql/scale-ai-graphql.md
-    type: GraphQL
 - aid: scale-ai:scale-genai-data-engine
   name: Scale GenAI Data Engine
   description: >-
@@ -118,6 +116,10 @@ apis:
     of Scale's data engine.
   humanURL: https://scale.com/docs/
   tags:
+  - GenAI Platform
+  - AI Agents
+  - Enterprise
+  tags_raw:
   - GenAI Platform
   - Agentic AI
   - Enterprise
