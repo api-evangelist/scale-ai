@@ -206,6 +206,12 @@ apis:
   - type: OpenAPI
     url: openapi/scale-ai-tasks-api-openapi.yml
 common:
+- type: Plans
+  url: plans/scale-ai-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/scale-ai-rate-limits.yml
+- type: FinOps
+  url: finops/scale-ai-finops.yml
 - type: Website
   url: https://www.scale.com/
 - type: AgenticAccess
