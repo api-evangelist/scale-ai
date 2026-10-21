@@ -9,6 +9,11 @@ checked:
 - https://raw.githubusercontent.com/18F/fedramp-data/4b73d9247fd6360759960e4690e3ce4ca858e0fa/data/data.json
 - https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15/suppliers
 - https://zapier.com/api/v4/apps/
+- https://500.co/api/startups
+- https://500.co/companies
+- https://www.antler.co/portfolio
+- https://www.techstars.com/portfolio
+- https://www.ycombinator.com/companies
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -128,6 +133,35 @@ edges:
     builder: Pipedream repo (component)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: Y Combinator
+  partner: y-combinator
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.ycombinator.com/companies/scale-ai
+  category: accelerator portfolio participation
+  contract_reference:
+    register: Y Combinator company directory (ycombinator.com/companies/<slug>)
+    standard: null
+    spec_file: null
+    role: accelerator-portfolio-company
+    registered_name: Scale AI
+    register_id: https://www.ycombinator.com/companies/scale-ai
+    register_country: US
+    register_website: http://scale.com
+    matched_domain: scale.com
+    matched_by: domain
+    signal_note: 'participation only: the accelerator''s own portfolio register lists the company (cohort / investment);
+      an ownership and participation record, not conformance or certification'
+    detected_by: sweep-accelerator-portfolios.py
+    detected: '2026-10-21'
+    batch: Summer 2016
+    year: '2016'
+    status: Active
+  detected_by: sweep-accelerator-portfolios.py
+  first_seen: '2026-10-21'
 source:
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://zapier.com/api/v4/apps/
