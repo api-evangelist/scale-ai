@@ -21,6 +21,7 @@ checked:
 - https://www.sequoiacap.com/our-companies/
 - https://www.sequoiacap.com/sitemap.xml
 - https://dir.texas.gov/resource-library-item/tx-ramp-certified-cloud-products
+- hugging-face/integrations/hugging-face-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -240,6 +241,37 @@ edges:
     detected: '2026-10-22'
   detected_by: sweep-tx-ramp-certified-cloud.py
   first_seen: '2026-10-22'
+- partner_name: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: hugging-face-hub
+  evidence: https://huggingface.co/ScaleAI
+  mirror_of: hugging-face/integrations/hugging-face-integration-edges.yml
+  apps:
+  - ScaleAI/SWE-bench_Pro
+  - ScaleAI/MCP-Atlas
+  - ScaleAI/HSS
+  - ScaleAI/hil-bench
+  - ScaleAI/mrt
+  - ScaleAI/PRBench
+  - ScaleAI/fortress_public
+  - ScaleAI/MultiChallenge
+  - ScaleAI/mhj-llama3-8b-rmu
+  - ScaleAI/vft-llama-3_1-8b-instruct
+  - ScaleAI/swe-oec-7b
+  - ScaleAI/swe-oec-32b
+  - ScaleAI/tps-dependencies
+  listing_count: 2
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Hugging Face Hub datasets
+  badges:
+  - Verified publisher (Hugging Face verified organisation)
 source:
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://zapier.com/api/v4/apps/
